@@ -27,7 +27,7 @@ class Router extends React.Component {
     // get a new location before the <Router> is mounted.
     this._isMounted = false;
     this._pendingLocation = null;
-
+    // if (!props.staticContext) {}的作用，是保证Router里面再嵌套Router时，使用的是相同的history
     if (!props.staticContext) {
       this.unlisten = props.history.listen(location => {
         if (this._isMounted) {
@@ -90,3 +90,7 @@ if (__DEV__) {
 }
 
 export default Router;
+
+/// 从源码知道，Router 组件设置了一个 location 的 state ，
+// 并且把 history ，location 注入 RouterContext。history 和子组件(就是Route)组件注入HistoryContext 。
+// 并且监听 location 的变化 props.history.listen(() => { // 改变location })。

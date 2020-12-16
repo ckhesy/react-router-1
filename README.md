@@ -54,3 +54,6 @@ You may provide financial support for this project by donating [via Open Collect
 ## About
 
 `react-router` is developed and maintained by [React Training](https://reacttraining.com) and many [amazing contributors](https://github.com/ReactTraining/react-router/graphs/contributors). If you're interested in learning more about what React can do for your company, please [get in touch](mailto:hello@reacttraining.com)!
+
+
+https://juejin.cn/post/6861607533950435336
