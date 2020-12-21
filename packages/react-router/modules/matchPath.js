@@ -33,7 +33,7 @@ function matchPath(pathname, options = {}) {
   const { path, exact = false, strict = false, sensitive = false } = options;
 
   const paths = [].concat(path);
-
+// 循环
   return paths.reduce((matched, path) => {
     if (!path && path !== "") return null;
     if (matched) return matched;

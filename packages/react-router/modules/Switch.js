@@ -24,6 +24,9 @@ class Switch extends React.Component {
           // here because toArray adds keys to all child elements and we do not want
           // to trigger an unmount/remount for two <Route>s that render the same
           // component at different URLs.
+
+          // 循环Switch下的每一个Route组件，并且对每一个Route组件的path进行matchPath
+          // 遍历后，得到赋值给match符合要求的element和match
           React.Children.forEach(this.props.children, child => {
             if (match == null && React.isValidElement(child)) {
               element = child;

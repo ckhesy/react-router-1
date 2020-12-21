@@ -59,9 +59,9 @@ class Router extends React.Component {
     return (
       <RouterContext.Provider
         value={{
-          history: this.props.history,
-          location: this.state.location,
-          match: Router.computeRootMatch(this.state.location.pathname),
+          history: this.props.history, // history实例传入context中
+          location: this.state.location, // 当前页面的location状态传入context
+          match: Router.computeRootMatch(this.state.location.pathname), // match当前命中的路由规则
           staticContext: this.props.staticContext
         }}
       >

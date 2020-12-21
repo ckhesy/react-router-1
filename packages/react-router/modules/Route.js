@@ -33,7 +33,9 @@ class Route extends React.Component {
       <RouterContext.Consumer>
         {context => {
           invariant(context, "You should not use <Route> outside a <Router>");
-
+          // computedMatch是route包裹了Switch组件才会true
+          // 当前Route如果没有传入path参数，那么将命中路径‘/’，无论如何都显示
+          // 若Route 有path参数，
           const location = this.props.location || context.location;
           const match = this.props.computedMatch
             ? this.props.computedMatch // <Switch> already computed the match for us
@@ -50,7 +52,10 @@ class Route extends React.Component {
           if (Array.isArray(children) && isEmptyChildren(children)) {
             children = null;
           }
-
+                // 为什么要包裹这一层RouterContext.Provider呢？？？？
+          // 如果当前Route命中了当前路由，那么match将不为null
+          // 检查 当前Route的子组件是class还是函数组件，进行不同的处理
+          // 如果当前route没子组件，那么将检查是否传入component参数或者render参数，进行不同处理
           return (
             <RouterContext.Provider value={props}>
               {props.match
