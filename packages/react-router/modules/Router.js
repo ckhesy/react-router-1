@@ -12,14 +12,15 @@ class Router extends React.Component {
   static computeRootMatch(pathname) {
     return { path: "/", url: "/", params: {}, isExact: pathname === "/" };
   }
-
+// ====== constructor周期内监听history的路由事件，将新的location存到Router的state中
   constructor(props) {
     super(props);
 
     this.state = {
       location: props.history.location
     };
-
+    // 为了防止此时有<Redirect>,是防御性代码，是一种hack的做法，防止组件还没渲染location就变了
+    // 如果location发生变化，但是当前组件还没有渲染出来，就放到临时的peddng变量中去，下次等渲染了，再设置到state上
     // This is a bit of a hack. We have to start listening for location
     // changes here in the constructor in case there are any <Redirect>s
     // on the initial render. If there are, they will replace/push when
@@ -46,7 +47,7 @@ class Router extends React.Component {
       this.setState({ location: this._pendingLocation });
     }
   }
-
+  // ==== componentWillUnmount移除监听
   componentWillUnmount() {
     if (this.unlisten) {
       this.unlisten();
@@ -54,7 +55,7 @@ class Router extends React.Component {
       this._pendingLocation = null;
     }
   }
-
+// ===== 使用Context包裹子组件（Provider），存入history、location、match(默认的命中对象)等。
   render() {
     return (
       <RouterContext.Provider

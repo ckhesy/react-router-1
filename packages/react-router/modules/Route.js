@@ -33,9 +33,9 @@ class Route extends React.Component {
       <RouterContext.Consumer>
         {context => {
           invariant(context, "You should not use <Route> outside a <Router>");
-          // computedMatch是route包裹了Switch组件才会true
+          // computedMatch是route包裹了Switch组件才会true，等会介绍switch的时候会讲到
           // 当前Route如果没有传入path参数，那么将命中路径‘/’，无论如何都显示
-          // 若Route 有path参数，
+          // 若Route 有path参数，那么就用matchPath函数来决定是否命中路由
           const location = this.props.location || context.location;
           const match = this.props.computedMatch
             ? this.props.computedMatch // <Switch> already computed the match for us
