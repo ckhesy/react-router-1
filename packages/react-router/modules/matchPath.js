@@ -24,7 +24,10 @@ function compilePath(path, options) {
 
 /**
  * Public API for matching a URL pathname to a path.
+ * matchPath是react-router的一个公共api, 支持传入一个pathname以及path, 
+ * 若是path与pathname匹配则返回一个match对象, 不匹配则返回一个null;
  */
+
 function matchPath(pathname, options = {}) {
   if (typeof options === "string" || Array.isArray(options)) {
     options = { path: options };

@@ -42,11 +42,11 @@ const LinkAnchor = forwardRef(
 
         if (
           !event.defaultPrevented && // onClick prevented default
-          event.button === 0 && // ignore everything but left clicks
-          (!target || target === "_self") && // let browser handle "target=_blank" etc.
-          !isModifiedEvent(event) // ignore clicks with modifier keys
+          event.button === 0 && // 点击事件为鼠标左键; ignore everything but left clicks
+          (!target || target === "_self") && // _target不存在, 或者_target为_selflet browser handle "target=_blank" etc.
+          !isModifiedEvent(event) // 点击事件发生时未有其他按键同时按住; ignore clicks with modifier keys
         ) {
-          event.preventDefault();
+          event.preventDefault(); // 阻止超链接默认事件, 避免点击<Link>后重新刷新页面;
           navigate();
         }
       }
@@ -99,6 +99,8 @@ const Link = forwardRef(
             ...rest,
             href,
             navigate() {
+              // navigate从<Link>源码中可以看到, 主要是通过传入的replace属性判断跳转类型, 
+              // 根据对应跳转类型选择history.replace或是history.push进行路由跳转:
               const location = resolveToLocation(to, context.location);
               const method = replace ? history.replace : history.push;
 
@@ -137,10 +139,16 @@ if (__DEV__) {
   Link.propTypes = {
     innerRef: refType,
     onClick: PropTypes.func,
-    replace: PropTypes.bool,
+    replace: PropTypes.bool, // //默认值是false，如果是真的，点击这个链接将会取代历史堆栈中的当前条目，而不是添加一个新的条目。
     target: PropTypes.string,
-    to: toType.isRequired
+    to: toType.isRequired ////可能是字符串，可能是对象。
+    //如果是对象可以包含 to={{
+      // pathname: '/courses',
+      // search: '?sort=name',
+      // hash: '#the-hash',
+      // state: { fromDashboard: true }
+   //}}
   };
 }
-
+// Link 组件最终会渲染为 HTML 标签 <a>，它的 to、query、hash 属性会被组合在一起并渲染为 href 属性。虽然 Link 被渲染为超链接，但在内部实现上使用脚本拦截了浏览器的默认行为，然后调用了history.pushState 方法
 export default Link;
