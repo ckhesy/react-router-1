@@ -17,7 +17,8 @@ if (typeof forwardRef === "undefined") {
 function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
-
+// LinkAnchor只是渲染了一个没有默认行为的a标签
+// 跳转行为由传进来的navigate实现
 const LinkAnchor = forwardRef(
   (
     {
@@ -87,7 +88,7 @@ const Link = forwardRef(
         {context => {
           invariant(context, "You should not use <Link> outside a <Router>");
 
-          const { history } = context;
+          const { history } = context; // 从RouterContext获取history对象
 
           const location = normalizeToLocation(
             resolveToLocation(to, context.location),
@@ -99,7 +100,7 @@ const Link = forwardRef(
             ...rest,
             href,
             navigate() {
-              // navigate从<Link>源码中可以看到, 主要是通过传入的replace属性判断跳转类型, 
+              // navigate从<Link>源码中可以看到, 主要是通过传入的replace属性判断跳转类型,
               // 根据对应跳转类型选择history.replace或是history.push进行路由跳转:
               const location = resolveToLocation(to, context.location);
               const method = replace ? history.replace : history.push;
@@ -143,11 +144,11 @@ if (__DEV__) {
     target: PropTypes.string,
     to: toType.isRequired ////可能是字符串，可能是对象。
     //如果是对象可以包含 to={{
-      // pathname: '/courses',
-      // search: '?sort=name',
-      // hash: '#the-hash',
-      // state: { fromDashboard: true }
-   //}}
+    // pathname: '/courses',
+    // search: '?sort=name',
+    // hash: '#the-hash',
+    // state: { fromDashboard: true }
+    //}}
   };
 }
 // Link 组件最终会渲染为 HTML 标签 <a>，它的 to、query、hash 属性会被组合在一起并渲染为 href 属性。虽然 Link 被渲染为超链接，但在内部实现上使用脚本拦截了浏览器的默认行为，然后调用了history.pushState 方法
